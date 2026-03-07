@@ -7,16 +7,20 @@ button.addEventListener("click", searchBooks);
 async function searchBooks() {
 
     const query = input.value.trim();
+    // const query = input.value;
+    console.log(query);
+
     if (!query) {
         console.log("Enter search query");
         return;
     }
 
-    const url = `https://openlibrary.org/search.json?q=${query}`;
+    const url = `https://openlibrary.org/search.json?q=${encodeURIComponent(query)}`;
     try {
 
         const response = await fetch(url);
         const data = await response.json();
+        console.log(url);
         console.log(data);
         showBooks(data.docs);
     } catch (error) {
@@ -25,10 +29,19 @@ async function searchBooks() {
 }
 
 function showBooks(books){
-    console.log("showBooks called", books);
     results.innerHTML = "";
 
-    books.slice(0, 10).forEach(book => {
+    const query = input.value.trim().toLowerCase();
+    
+    //only the ones that have exact querry )SQL %LIKE%)
+    const matchingBooks = books.filter(book => 
+        book.title.toLowerCase().includes(query)  // ← Изменил на includes()
+    );
+    
+    const booksToShow = matchingBooks.length > 0 ? matchingBooks : books;
+
+    booksToShow.forEach(book => {
+        //books.slice(0, 10).forEach(book => {
         const div = document.createElement("div");
 
         const title = book.title;
@@ -43,10 +56,14 @@ function showBooks(books){
         }
 
         div.innerHTML = `
-            <img src="${cover}" alt="Book cover">
-            <h3>${title}</h3>
-            <p>Author: ${author}</p>
-            <p>Year: ${year}</p>
+            <div class="bookCard">
+                <img src="${cover}" alt="Book cover">
+                <div class="infoDiv">
+                    <h3 class="title">${title}</h3>
+                    <p class="author">${author}</p>
+                    <p class="year">${year}</p>
+                </div>  
+            </div>  
         `;
 
         results.appendChild(div);
