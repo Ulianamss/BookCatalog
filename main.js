@@ -2,11 +2,10 @@ const searchButton = document.getElementById("searchButton");
 const input = document.getElementById("searchInput");
 const results = document.getElementById("results");
 const favoritesContainer = document.getElementById("favorites");
+const loading = document.getElementById("loading");
+
 
 searchButton.addEventListener("click", searchBooks);
-
-renderFavorites();
-
 input.addEventListener("keypress", function(event) {
   if (event.key === "Enter") {
     event.preventDefault();
@@ -14,26 +13,46 @@ input.addEventListener("keypress", function(event) {
   }
 });
 
+function showToast(message){
+    const toast = document.getElementById("toast");
+    toast.textContent = message;
+    toast.classList.add("show");
+    setTimeout(() => {
+        toast.classList.remove("show");
+    }, 5000);
+}
+
+
+renderFavorites();
+
 async function searchBooks() {
     const query = input.value.trim();
     console.log(query);
 
     if (!query) {
+        showToast("Enter search query");
         console.log('empty query');
         return;
     }
+    loading.classList.remove("hidden");
 
     const url = `https://openlibrary.org/search.json?q=${encodeURIComponent(query)}`;
     try {
         const response = await fetch(url);
         const data = await response.json();
+        
+        loading.classList.add("hidden");
+        
         console.log(url);
         console.log(data);
         showBooks(data.docs);
         if (!data.docs || data.docs.length === 0) {
             console.log('nothig found');
-        return;}
+            showToast("Nothing found");
+            return;
+        }
     } catch (error) {
+        showToast("Network error");
         console.error("Network error", error);
     }
     
@@ -98,9 +117,11 @@ function toggleFavorite(book){
     let favorites = JSON.parse(localStorage.getItem("favorites")) || [];
     const index = favorites.findIndex(fav => fav.key === book.key);
     if(index === -1){
-        favorites.push(book);
+    favorites.push(book);
+        showToast("Added to favorites");
     }else{
         favorites.splice(index, 1);
+        showToast("Removed from favorites");
     }
     localStorage.setItem("favorites", JSON.stringify(favorites));
     renderFavorites();
