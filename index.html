@@ -12,6 +12,7 @@
             <p>The library</p>
             <button id="themeToggle">Theme</button>
         </header>
+        
         <div class="mainContent">
             <div class="topSection">
                 <p class="title">Book Catalog</p>
@@ -23,6 +24,14 @@
             
             <div class="resultsSection">
                 <div id="loading" class="hidden">Loading...</div>
+                
+                <div id="filterContainer">
+                    <label for="authorFilter">Filter by author:</label>
+                    <select id="authorFilter">
+                        <option value="">All Authors</option>
+                    </select>
+                </div>
+                
                 <div id="results"></div>
             </div>
 

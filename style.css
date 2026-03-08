@@ -50,6 +50,7 @@ footer{
 }
 
 .topSection{
+    padding: 10px;
     /* background-color: aquamarine; */
     text-align: center;
 }
@@ -112,6 +113,35 @@ input[type="text"] {
 }
 
 
+#filterContainer {
+    background-color: #f5f5f5;
+    padding: 15px;
+    border-radius: 4px;
+    border: 1px solid #ddd;
+}
+
+#authorFilter {
+    padding: 8px 12px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+#authorFilter:hover {
+    border-color: #667eea;
+}
+
+body.dark-mode #filterContainer {
+    background-color: #333;
+    border-color: #444;
+}
+
+body.dark-mode #authorFilter {
+    background-color: #333;
+    color: #e0e0e0;
+    border-color: #444;
+}
 
 .bookCard {
     /* display: flex;

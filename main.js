@@ -4,6 +4,8 @@ const results = document.getElementById("results");
 const favoritesContainer = document.getElementById("favorites");
 const loading = document.getElementById("loading");
 
+
+
 // Theme toggle
 const themeToggle = document.getElementById("themeToggle");
 const prefersDark = localStorage.getItem("theme") === "dark";
@@ -62,10 +64,8 @@ async function searchBooks() {
     console.log(query);
 
     if (!query) {
-        results.innerHTML = "";
-        loading.classList.add("hidden");
-        showToast("Enter search query");
-        console.log('empty query');
+        loading.classList.remove("hidden");
+        await showPopularBooks();
         return;
     }
     loading.classList.remove("hidden");
@@ -79,7 +79,6 @@ async function searchBooks() {
         
         if (!data.docs || data.docs.length === 0) {
             console.log('nothig found');
-            showToast("Nothing found");
             return;
         }
         console.log(url);
@@ -95,21 +94,79 @@ async function searchBooks() {
 }
 
 
+// Store books for filtering
+let currentBooks = [];
 
 function showBooks(books){
     results.innerHTML = "";
+    currentBooks = books;  // Store books for filtering
+    
     const query = input.value.trim().toLowerCase();
 
-    //only the ones that have exact querry (SQL %LIKE%)
-    // const matchingBooks = books.filter(book => 
-    //     book.title.toLowerCase().includes(query)
-    // );
+    const matchingBooks = books.filter(book => 
+        book.title.toLowerCase().includes(query)
+    );
     
-    // const booksToShow = matchingBooks.length > 0 ? matchingBooks : books;
-    // booksToShow.forEach(book => {
+    const booksToShow = matchingBooks.length > 0 ? matchingBooks : books;
+    
+    // Show filter if there are results
+    if (booksToShow.length > 0) {
+        document.getElementById("filterContainer").style.display = "block";
+        populateAuthorFilter(booksToShow);
+    } else {
+        document.getElementById("filterContainer").style.display = "none";
+    }
+    
+    displayBooks(booksToShow);
+}
 
+// Populate author dropdown
+function populateAuthorFilter(books) {
+    const authorFilter = document.getElementById("authorFilter");
+    const authors = new Set();
+    
+    // Get unique authors
     books.forEach(book => {
-        //books.slice(0, 10).forEach(book => {
+        if (book.author_name && book.author_name[0]) {
+            authors.add(book.author_name[0]);
+        }
+    });
+    
+    // Reset dropdown
+    authorFilter.innerHTML = '<option value="">All Authors</option>';
+    
+    // Add each author (sorted)
+    Array.from(authors).sort().forEach(author => {
+        const option = document.createElement("option");
+        option.value = author;
+        option.textContent = author;
+        authorFilter.appendChild(option);
+    });
+    
+    // Reset to "All Authors"
+    authorFilter.value = "";
+}
+
+// Handle author filter change
+document.getElementById("authorFilter").addEventListener("change", function() {
+    const selectedAuthor = this.value;
+    
+    let booksToShow = currentBooks;
+    
+    // Filter by author if selected
+    if (selectedAuthor) {
+        booksToShow = currentBooks.filter(book => 
+            book.author_name && book.author_name[0] === selectedAuthor
+        );
+    }
+    
+    displayBooks(booksToShow);
+});
+
+function displayBooks(books) {
+    results.innerHTML = "";
+    
+    books.forEach(book => {
         const div = document.createElement("div");
 
         const title = book.title;
@@ -143,6 +200,24 @@ function showBooks(books){
 
         results.appendChild(div);
     });
+}
+
+async function showPopularBooks() {
+    try {
+        const url = `https://openlibrary.org/search.json?q=book&limit=10`;
+        const response = await fetch(url);
+        const data = await response.json();
+        
+        loading.classList.add("hidden");
+        
+        if (data.docs && data.docs.length > 0) {
+            showBooks(data.docs.slice(0, 10));
+        }
+    } catch (error) {
+        loading.classList.add("hidden");
+        showToast("Network error");
+        console.error("Network error", error);
+    }
 }
 
 
@@ -210,3 +285,8 @@ function renderFavorites(){
         favoritesContainer.appendChild(div);
     });
 }
+
+// Show popular books on page load
+window.addEventListener("load", function() {
+    showPopularBooks();
+});
