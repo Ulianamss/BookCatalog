@@ -5,42 +5,46 @@ const favoritesContainer = document.getElementById("favorites");
 
 button.addEventListener("click", searchBooks);
 
-async function searchBooks() {
+renderFavorites();
 
+
+async function searchBooks() {
     const query = input.value.trim();
-    // const query = input.value;
     console.log(query);
 
     if (!query) {
-        console.log("Enter search query");
+        console.log('empty query');
         return;
     }
 
     const url = `https://openlibrary.org/search.json?q=${encodeURIComponent(query)}`;
     try {
-
         const response = await fetch(url);
         const data = await response.json();
         console.log(url);
         console.log(data);
         showBooks(data.docs);
+        if (!data.docs || data.docs.length === 0) {
+            console.log('nothig found');
+        return;}
     } catch (error) {
         console.error("Network error", error);
     }
+    
 }
+
+
 
 function showBooks(books){
     results.innerHTML = "";
-
     const query = input.value.trim().toLowerCase();
-    
-    //only the ones that have exact querry )SQL %LIKE%)
+
+    //only the ones that have exact querry (SQL %LIKE%)
     const matchingBooks = books.filter(book => 
-        book.title.toLowerCase().includes(query)  // ← Изменил на includes()
+        book.title.toLowerCase().includes(query)
     );
     
     const booksToShow = matchingBooks.length > 0 ? matchingBooks : books;
-
     booksToShow.forEach(book => {
         //books.slice(0, 10).forEach(book => {
         const div = document.createElement("div");
@@ -49,7 +53,6 @@ function showBooks(books){
         const author = book.author_name ? book.author_name[0] : "Unknown author";
         const year = book.first_publish_year ? book.first_publish_year : "Unknown year";
         let cover;
-
         if (book.cover_i) {
             cover = `https://covers.openlibrary.org/b/id/${book.cover_i}.jpg`;
         } else {
@@ -63,26 +66,48 @@ function showBooks(books){
                     <h3 class="bookName">${title}</h3>
                     <p class="author">${author}</p>
                     <p class="year">${year}</p>
-                    <button class="favoriteButton">Add to Favorites</button>
+                    <button class="favoritesButton"></button>
                 </div>  
             </div>  
         `;
 
-        const favButton = div.querySelector(".favBtn");
-        favButton.addEventListener("click", () => {
-            addToFavorites(book);
+        const favoritesButton = div.querySelector(".favoritesButton");
+        updateFavoriteButton(favoritesButton, book);
+        favoritesButton.addEventListener("click", () => {
+            toggleFavorite(book);
+            updateFavoriteButton(favoritesButton, book);
         });
 
         results.appendChild(div);
     });
 }
 
-function addToFavorites(book){
+
+function isFavorite(book){
+    const favorites = JSON.parse(localStorage.getItem("favorites")) || [];
+    return favorites.some(fav => fav.key === book.key);
+}
+
+function toggleFavorite(book){
     let favorites = JSON.parse(localStorage.getItem("favorites")) || [];
-    favorites.push(book);
+    const index = favorites.findIndex(fav => fav.key === book.key);
+    if(index === -1){
+        favorites.push(book);
+    }else{
+        favorites.splice(index, 1);
+    }
     localStorage.setItem("favorites", JSON.stringify(favorites));
     renderFavorites();
 }
+
+function updateFavoriteButton(button, book){
+    if(isFavorite(book)){
+        button.textContent = "Remove from Favorites";
+    }else{
+        button.textContent = "Add to Favorites";
+    }
+}
+
 
 function renderFavorites(){
     const favorites = JSON.parse(localStorage.getItem("favorites")) || [];
@@ -94,7 +119,6 @@ function renderFavorites(){
         const author = book.author_name ? book.author_name[0] : "Unknown author";
         const year = book.first_publish_year ? book.first_publish_year : "Unknown year";
         let cover;
-
         if (book.cover_i) {
             cover = `https://covers.openlibrary.org/b/id/${book.cover_i}.jpg`;
         } else {
@@ -107,13 +131,17 @@ function renderFavorites(){
                     <h3 class="bookName">${title}</h3>
                     <p class="author">${author}</p>
                     <p class="year">${year}</p>
-                    <button class="favoriteButton">Add to Favorites</button>
+                    <button class="favoritesButton"></button>
                 </div>  
             </div>  
         `;
+
+        const favoritesButton = div.querySelector(".favoritesButton");
+        updateFavoriteButton(favoritesButton, book);
+        favoritesButton.addEventListener("click", () => {
+            toggleFavorite(book);
+        });
+
         favoritesContainer.appendChild(div);
     });
 }
-
-
-renderFavorites();

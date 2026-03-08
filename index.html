@@ -11,31 +11,34 @@
         <header>
             <p>The library</p>
         </header>
+        <div class="mainContent">
+            <div class="topSection">
+                <p class="title">Book Catalog</p>
+                <div class="inputSection">
+                    <input
+                    id="searchInput"
+                    type="text"
+                    placeholder="Search books"
+                >
+                <button id="searchButton">Search</button>
+                </div>
+            </div>
+            
+            <div class="resultsSection">
+                <div id="results"></div>
+            </div>
 
-        <div class="topSection">
-            <p class="title">Book Catalog</p>
-            <input
-                id="searchInput"
-                type="text"
-                placeholder="Search books"
-            >
-            <button id="searchButton">Search</button>
+            <div class="favoritesSection">
+                <p class="favoritesHeading">Favorites</h2>
+                <div id="favorites"></div>
+            </div>
         </div>
         
-        <div class="resultsSection">
-            <div id="results"></div>
-        </div>
-
-        <div class="favoritesSection">
-            <p class="favoritesHeading">Favorites</h2>
-            <div id="favorites"></div>
-        </div>
 
         <footer>
             <p>All rights reserved</p>
         </footer>
     </div>
-
 
 
     <script src="main.js"></script>
