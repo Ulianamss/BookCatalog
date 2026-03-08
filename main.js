@@ -1,12 +1,18 @@
-const button = document.getElementById("searchButton");
+const searchButton = document.getElementById("searchButton");
 const input = document.getElementById("searchInput");
 const results = document.getElementById("results");
 const favoritesContainer = document.getElementById("favorites");
 
-button.addEventListener("click", searchBooks);
+searchButton.addEventListener("click", searchBooks);
 
 renderFavorites();
 
+input.addEventListener("keypress", function(event) {
+  if (event.key === "Enter") {
+    event.preventDefault();
+    document.getElementById("searchButton").click();
+  }
+});
 
 async function searchBooks() {
     const query = input.value.trim();
@@ -100,11 +106,11 @@ function toggleFavorite(book){
     renderFavorites();
 }
 
-function updateFavoriteButton(button, book){
+function updateFavoriteButton(favoritesButton, book){
     if(isFavorite(book)){
-        button.textContent = "Remove from Favorites";
+        favoritesButton.textContent = "Remove from Favorites";
     }else{
-        button.textContent = "Add to Favorites";
+        favoritesButton.textContent = "Add to Favorites";
     }
 }
 
