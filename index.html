@@ -1,51 +1,66 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Book Catalog</title>
-<link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Catalog</title>
+    <link rel="stylesheet" href="./src/styles/style.css">
 </head>
 <body>
     <div class="container">
+        <!-- HEADER -->
         <header>
             <p>The library</p>
             <button id="themeToggle">Dark Mode</button>
         </header>
 
+        <!-- MAIN CONTENT -->
         <div class="mainContent">
+            
+            <!-- SEARCH SECTION -->
             <div class="topSection">
                 <p class="title">Book Catalog</p>
+                <p class="subtitle">Search books</p>
                 <div class="inputSection">
                     <input id="searchInput" type="text" placeholder="Search books" >
-                    <button id="searchButton"><img src="../BookCatalog/assets/search.svg"></button>
+                    <button id="searchButton"><img src="../assets/search.svg"></button>
                 </div>
             </div>
             
+            <!-- RESULTS SECTION -->
             <div class="resultsSection">
+                <!-- Author Filter -->
                 <div id="filterContainer">
                     <label for="authorFilter">Filter by author:</label>
                     <select id="authorFilter">
                         <option value="">All Authors</option>
                     </select>
                 </div>
+
+                <!-- Loading Indicator -->
                 <div id="loading" class="hidden">Loading...</div>
+
+                <!-- Results Grid -->
                 <div id="results"></div>
             </div>
 
+            <!-- FAVORITES SECTION -->
             <div class="favoritesSection">
                 <p class="favoritesHeading">Favorites</p>
                 <div id="favorites"></div>
             </div>
         </div>
-        
 
+        <!-- FOOTER -->
         <footer>
-            <p>All rights reserved</p>
+            <p>Meow :)</p>
         </footer>
     </div>
 
+    <!-- TOAST NOTIFICATION -->
     <div id="toast"></div>
-    <script src="main.js"></script>
+
+    <!-- MAIN JS ENTRY POINT - IMPORTANT: type="module" -->
+    <script type="module" src="./src/main.js"></script>
 </body>
 </html>
