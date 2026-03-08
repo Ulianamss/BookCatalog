@@ -4,6 +4,28 @@ const results = document.getElementById("results");
 const favoritesContainer = document.getElementById("favorites");
 const loading = document.getElementById("loading");
 
+// Theme toggle
+const themeToggle = document.getElementById("themeToggle");
+const prefersDark = localStorage.getItem("theme") === "dark";
+
+// Load saved theme
+if (prefersDark) {
+    document.body.classList.add("dark-mode");
+    themeToggle.textContent = "Light Mode";
+}
+
+// Handle theme toggle
+themeToggle.addEventListener("click", function() {
+    document.body.classList.toggle("dark-mode");
+    
+    if (document.body.classList.contains("dark-mode")) {
+        localStorage.setItem("theme", "dark");
+        themeToggle.textContent = "Light Mode";
+    } else {
+        localStorage.setItem("theme", "light");
+        themeToggle.textContent = "Dark Mode";
+    }
+});
 
 searchButton.addEventListener("click", searchBooks);
 input.addEventListener("keypress", function(event) {

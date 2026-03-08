@@ -234,6 +234,59 @@ transform:translateY(0);
     display: none;
 }
 
+
+
+/* Dark theme styles */
+body.dark-mode {
+    background-color: #1a1a1a;
+    color: #e0e0e0;
+}
+
+body.dark-mode header,
+body.dark-mode footer {
+    background-color: #222;
+    border-color: #444;
+}
+
+body.dark-mode .container {
+    background-color: #2a2a2a;
+}
+
+body.dark-mode .topSection,
+body.dark-mode .resultsSection,
+body.dark-mode .favoritesSection {
+    background-color: #2a2a2a;
+}
+
+body.dark-mode .bookCard {
+    background-color: #333;
+    color: #e0e0e0;
+}
+
+body.dark-mode input[type="text"] {
+    background-color: #333;
+    color: #e0e0e0;
+    border-color: #444;
+}
+
+body.dark-mode #themeToggle {
+    background-color: #444;
+    color: #e0e0e0;
+}
+
+body.dark-mode .bookName {
+    color: #e0e0e0;
+}
+
+body.dark-mode .author {
+    color: #aaa;
+}
+
+body.dark-mode .year {
+    color: #888;
+}
+
+
 #results, #favorites{
     display:grid;
     grid-template-columns:repeat(auto-fill,minmax(180px,1fr));
