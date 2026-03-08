@@ -1,28 +1,48 @@
+:root {
+    --white: #ffffff;
+    --green: #27694d;
+    --yellow: #daa520;
+    --red: #ef4444;
+    --brown: #383129;
+    --black: #2a2622;
+    
+    --title: #2b2622;
+    --text: #7c736a;
+    --border: #E7E2DA;
+
+    --background: #f7f4ef;
+    --card: #fcfaf7;
+    --secondary: #eeebe4;
+    --shadow: #c4b8a8;
+    --favorite: #eaf0ed;
+}
+
 body {
     font-family: Arial, sans-serif;
     background-color: #f8f6f2;
     margin: 0;
-    padding: 0 20px ;
+    /* padding: 0 20px ; */
     color: #333;
 }
 
 header{
     height: 50px;
-    background-color: cornflowerblue;
+    /* background-color: cornflowerblue; */
     border-bottom: 1px solid black;
     margin: 0;
+    display: flex;
 }
 footer{
     height: 50px;
-    background-color: cornflowerblue;
+    /* background-color: cornflowerblue; */
     border-top: 1px solid black;
 }
 
 .container {
     max-width: 1200px;
     margin: 0 auto;
-    background-color: rgb(255, 176, 176);
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    /* background-color: rgb(255, 176, 176); */
+    /* box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); */
 }
 
 .mainContent{
@@ -30,20 +50,29 @@ footer{
 }
 
 .topSection{
-    background-color: aquamarine;
+    /* background-color: aquamarine; */
     text-align: center;
 }
 
 .resultsSection{
-    background-color: chocolate;
+    padding: 10px;
+    /* background-color: chocolate; */
 }
 
 .favoritesSection{
-    background-color: gold;
+    padding: 10px;
+    /* background-color: gold; */
 }
 
 p{
-    margin: 0;
+    margin: 20px;
+}
+
+#themeToggle{
+    padding: 8px 16px; cursor: pointer; 
+    border: none; 
+    border-radius: 4px; 
+    background: #f0f0f0;
 }
 
 .title {
@@ -55,17 +84,20 @@ p{
 
 .inputSection{
     display: flex;
+    gap: 0;
 }
 
+
+
 input[type="text"] {
-    width: calc(100% - 100px);
+    flex: 1;
     padding: 10px;
     border: 1px solid #ddd;
     border-radius: 4px 0 0 4px;
     font-size: 16px;
 }
 
-.searchButton {
+#searchButton {
     padding: 10px 20px;
     background-color: #5EBD3C;
     color: white;
@@ -75,7 +107,7 @@ input[type="text"] {
     font-size: 16px;
 }
 
-.searchButton:hover {
+#searchButton:hover {
     background-color: #4A9C2A;
 }
 
@@ -100,7 +132,7 @@ input[type="text"] {
     */
 }
 
-img {
+.cover {
     object-fit: cover;
     border-top-left-radius: 8px;
     border-top-right-radius: 8px;
@@ -153,7 +185,7 @@ img {
 
 
 
-.favoriteButton {
+.favoritesButton {
     background-color: #f0f0f0;
     color: #333;
     border: 1px solid #ddd;
@@ -163,7 +195,7 @@ img {
     border-radius: 3px;
 }
 
-.favoriteButton:hover {
+.favoritesButton:hover {
     background-color: #4A9C2A;
 }
 

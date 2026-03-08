@@ -22,6 +22,16 @@ function showToast(message){
     }, 5000);
 }
 
+function debounce(func, delay) {
+    let timeoutId;
+    return function(...args) {
+        clearTimeout(timeoutId);
+        timeoutId = setTimeout(() => func(...args), delay);
+    };
+}
+
+input.addEventListener("input", debounce(searchBooks, 300));
+
 
 renderFavorites();
 
@@ -30,6 +40,8 @@ async function searchBooks() {
     console.log(query);
 
     if (!query) {
+        results.innerHTML = "";
+        loading.classList.add("hidden");
         showToast("Enter search query");
         console.log('empty query');
         return;
@@ -43,15 +55,17 @@ async function searchBooks() {
         
         loading.classList.add("hidden");
         
-        console.log(url);
-        console.log(data);
-        showBooks(data.docs);
         if (!data.docs || data.docs.length === 0) {
             console.log('nothig found');
             showToast("Nothing found");
             return;
         }
+        console.log(url);
+        console.log(data);
+        showBooks(data.docs);
+        
     } catch (error) {
+        loading.classList.add("hidden");
         showToast("Network error");
         console.error("Network error", error);
     }
@@ -65,12 +79,14 @@ function showBooks(books){
     const query = input.value.trim().toLowerCase();
 
     //only the ones that have exact querry (SQL %LIKE%)
-    const matchingBooks = books.filter(book => 
-        book.title.toLowerCase().includes(query)
-    );
+    // const matchingBooks = books.filter(book => 
+    //     book.title.toLowerCase().includes(query)
+    // );
     
-    const booksToShow = matchingBooks.length > 0 ? matchingBooks : books;
-    booksToShow.forEach(book => {
+    // const booksToShow = matchingBooks.length > 0 ? matchingBooks : books;
+    // booksToShow.forEach(book => {
+
+    books.forEach(book => {
         //books.slice(0, 10).forEach(book => {
         const div = document.createElement("div");
 
@@ -86,7 +102,7 @@ function showBooks(books){
 
         div.innerHTML = `
             <div class="bookCard">
-                <img src="${cover}" alt="Book cover">
+                <img class="cover" src="${cover}" alt="Book cover">
                 <div class="infoDiv">
                     <h3 class="bookName">${title}</h3>
                     <p class="author">${author}</p>
@@ -153,7 +169,7 @@ function renderFavorites(){
         }
         div.innerHTML = `
             <div class="bookCard">
-                <img src="${cover}" alt="Book cover">
+                <img class="cover" src="${cover}" alt="Book cover">
                 <div class="infoDiv">
                     <h3 class="bookName">${title}</h3>
                     <p class="author">${author}</p>
