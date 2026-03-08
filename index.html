@@ -10,9 +10,9 @@
     <div class="container">
         <header>
             <p>The library</p>
-            <button id="themeToggle">Theme</button>
+            <button id="themeToggle">Dark Mode</button>
         </header>
-        
+
         <div class="mainContent">
             <div class="topSection">
                 <p class="title">Book Catalog</p>
@@ -23,15 +23,13 @@
             </div>
             
             <div class="resultsSection">
-                <div id="loading" class="hidden">Loading...</div>
-                
                 <div id="filterContainer">
                     <label for="authorFilter">Filter by author:</label>
                     <select id="authorFilter">
                         <option value="">All Authors</option>
                     </select>
                 </div>
-                
+                <div id="loading" class="hidden">Loading...</div>
                 <div id="results"></div>
             </div>
 

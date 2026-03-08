@@ -203,15 +203,16 @@ function displayBooks(books) {
 }
 
 async function showPopularBooks() {
+    loading.classList.remove("hidden");
     try {
-        const url = `https://openlibrary.org/search.json?q=book&limit=10`;
+        const url = `https://openlibrary.org/search.json?q=book&limit=8`;
         const response = await fetch(url);
         const data = await response.json();
         
         loading.classList.add("hidden");
         
         if (data.docs && data.docs.length > 0) {
-            showBooks(data.docs.slice(0, 10));
+            showBooks(data.docs.slice(0, 8));
         }
     } catch (error) {
         loading.classList.add("hidden");
