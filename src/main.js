@@ -5,9 +5,7 @@ import { initializeFavorites, renderFavorites } from './modules/favorites.js';
 import { initializeFilter, populateAuthorFilter } from './modules/filter.js';
 
 // Initialize application
-function initializeApp() {
-    console.log('📚 Book Catalog App Initialized');
-    
+function initializeApp() {    
     // Initialize all modules
     initializeTheme();
     initializeSearch();
